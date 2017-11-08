@@ -42,10 +42,8 @@ RUN npm install -g --unsafe-perm node-red \
 # copy custom configuration
 WORKDIR /etc/supervisor/conf.d
 COPY supervisor/supervisord.conf .
-
 WORKDIR /etc/iqrf-daemon
 COPY config/. .
-
 RUN mkdir -p /node-red
 WORKDIR /node-red
 COPY ui/settings.js .

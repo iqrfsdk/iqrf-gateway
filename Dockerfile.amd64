@@ -1,5 +1,5 @@
 # IQRF GW image for the UP board
-# Authors: JotioTech && IQRFTech
+# Authors: JotioTech s.r.o. && IQRFTech s.r.o.
 
 FROM resin/up-board-debian:stretch
 
@@ -10,7 +10,7 @@ LABEL maintainer="rostislav.spinar@iqrf.com"
 RUN echo "deb http://repos.iqrfsdk.org/debian stretch testing" | sudo tee -a /etc/apt/sources.list.d/iqrf-daemon.list \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F973CFCE6B3BE25C
 
-# install supervisor && mosquitto && iqrf-daemon 
+# install supervisor && mosquitto && iqrf-daemon
 RUN	apt-get update \
 	&& apt-get install -y supervisor \
 	&& apt-get install -y mosquitto \
@@ -27,31 +27,32 @@ RUN apt-get update \
 
 WORKDIR /var/www/iqrf-daemon-webapp
 RUN composer create-project iqrfsdk/iqrf-daemon-webapp .
-RUN sed -i 's/sudo\:\ true/sudo\:\ false/g' app/config/config.neon
-RUN sed -i "s/initDaemon: 'systemd'/initDaemon: 'docker'/g" app/config/config.neon
+RUN sed -i 's/sudo\:\ true/sudo\:\ false/g' app/config/config.neon \
+ && sed -i "s/initDaemon: 'systemd'/initDaemon: 'docker'/g" app/config/config.neon
 
 # install node-red dashboard
-RUN apt-get update && \
-    apt-get install -y apt-utils
-RUN apt-get install -y wget curl unzip build-essential python python-pip
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
-RUN apt-get install -y nodejs
-RUN npm install -g --unsafe-perm node-red 
-RUN npm install --prefix /node-red/.node-red node-red-dashboard 
+RUN apt-get update \
+ && apt-get install -y apt-utils \
+ && apt-get install -y wget curl unzip build-essential python python-pip
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+ && apt-get install -y nodejs
+RUN npm install -g --unsafe-perm node-red \
+ && npm install -g --unsafe-perm node-red/node-red-dashboard
 
 # copy custom configuration
-WORKDIR /node-red
-ADD ui/settings.js .
-ADD ui/flows.json ./.node-red
-
 WORKDIR /etc/supervisor/conf.d
 COPY supervisor/supervisord.conf .
 
 WORKDIR /etc/iqrf-daemon
 COPY config/. .
 
-# ports
-EXPOSE 9001 80 8080 1883 55000/udp 55300/udp
+RUN mkdir -p /node-red
+WORKDIR /node-red
+COPY ui/settings.js .
+COPY ui/flows.json .
+
+# expose ports
+EXPOSE 80 1883 8080 9001 55000/udp 55300/udp
 
 # run the supervisor service
 CMD ["/usr/bin/supervisord"]

@@ -9,3 +9,11 @@ IQRF Gateway image based on IQRF daemon solution
 - https://mosquitto.org/
 - https://nodered.org/
 - https://github.com/node-red/node-red-dashboard
+
+## Build and Push
+
+```Bash
+docker build -f Dockerfile.amd64 -t iqrfsdk/iqrf-gateway-debian .
+docker login
+docker image push iqrfsdk/iqrf-gateway-debian
+```

@@ -1,0 +1,39 @@
+server {
+	listen 80;
+	listen [::]:80;
+
+	index index.php index.html index.htm index.nginx-debian.html;
+
+	server_name _;
+
+	location / {
+		root /var/www/;
+	}
+
+	location /node-red/ {
+		proxy_pass http://localhost:8081/;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		sub_filter "http://$server_name/" "http://$server_name/node-red/";
+		sub_filter_once off;
+	}
+
+	location /supervisor/ {
+		proxy_pass http://localhost:9001/;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		sub_filter "http://$server_name/" "http://$server_name/supervisor/";
+		sub_filter_once off;
+	}
+
+	location /webapp/ {
+		proxy_pass http://localhost:8080/;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		sub_filter "http://$server_name/" "http://$server_name/webapp/";
+		sub_filter_once off;
+	}
+}

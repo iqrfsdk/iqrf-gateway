@@ -19,14 +19,13 @@ RUN apt-get update \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /var/www/
-COPY nginx/index.html .
-
 # install iqrf-webapp
 WORKDIR /var/www/iqrf-daemon-webapp
 RUN composer create-project iqrfsdk/iqrf-daemon-webapp .
 RUN sed -i 's/sudo\:\ true/sudo\:\ false/g' app/config/config.neon \
+ && sed -i 's/iqrf-gw\:\ false/iqrf-gw\:\ true/g' app/config/config.neon \
  && sed -i "s/initDaemon: 'systemd'/initDaemon: 'docker-supervisor'/g" app/config/config.neon
+RUN cat app/config/config.neon
 
 # install node-red dashboard
 RUN npm install -g --unsafe-perm node-red \

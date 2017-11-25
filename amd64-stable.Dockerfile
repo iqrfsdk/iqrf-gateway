@@ -45,7 +45,7 @@ COPY ui/settings.js .
 COPY ui/flows.json .
 
 # expose ports
-EXPOSE 80 1883 9001 55000/udp 55300/udp
+EXPOSE 80 1880 1883 8080 9001 55000/udp 55300/udp
 
 # run the supervisor service
 CMD ["/usr/bin/supervisord"]

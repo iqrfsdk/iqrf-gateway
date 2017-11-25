@@ -7,7 +7,7 @@ server {
 	server_name _;
 
 	location /node-red/ {
-		proxy_pass http://localhost:8081/;
+		proxy_pass http://localhost:1880/;
 		proxy_set_header Upgrade $http_upgrade;
 		proxy_set_header Connection "upgrade";
 		sub_filter "http://$server_name/" "http://$server_name/node-red/";

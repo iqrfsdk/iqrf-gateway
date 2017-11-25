@@ -15,17 +15,16 @@ RUN apt-get update \
  && apt-get install --no-install-recommends -y apt-utils apt-transport-https build-essential composer curl git iqrf-daemon lsb-release mosquitto php7.0 php7.0-common php7.0-curl php7.0-fpm php7.0-json php7.0-mbstring php7.0-sqlite php7.0-zip nginx-full supervisor unzip wget \
  && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
  && apt-get install --no-install-recommends -y nodejs \
- && mkdir -p  /var/run/sshd /var/log/supervisor \
+ && mkdir -p /var/run/sshd /var/log/supervisor \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
 # install iqrf-webapp
 WORKDIR /var/www/iqrf-daemon-webapp
-RUN composer create-project iqrfsdk/iqrf-daemon-webapp .
-RUN sed -i 's/sudo\:\ true/sudo\:\ false/g' app/config/config.neon \
+RUN composer create-project iqrfsdk/iqrf-daemon-webapp . \
+ && sed -i 's/sudo\:\ true/sudo\:\ false/g' app/config/config.neon \
  && sed -i 's/iqrf-gw\:\ false/iqrf-gw\:\ true/g' app/config/config.neon \
  && sed -i "s/initDaemon: 'systemd'/initDaemon: 'docker-supervisor'/g" app/config/config.neon
-RUN cat app/config/config.neon
 
 # install node-red dashboard
 RUN npm install -g --unsafe-perm node-red \
@@ -34,7 +33,8 @@ RUN npm install -g --unsafe-perm node-red \
 # copy custom configuration
 WORKDIR /etc/nginx/sites-available
 COPY nginx/localhost .
-RUN ln -s /etc/nginx/sites-available/localhost /etc/nginx/sites-enabled/localhost && rm /etc/nginx/sites-enabled/default
+RUN ln -s /etc/nginx/sites-available/localhost /etc/nginx/sites-enabled/localhost \
+ && rm /etc/nginx/sites-enabled/default
 WORKDIR /etc/supervisor/conf.d
 COPY supervisor/supervisord.conf .
 WORKDIR /etc/iqrf-daemon

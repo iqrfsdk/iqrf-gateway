@@ -32,17 +32,16 @@ RUN npm install -g --unsafe-perm node-red \
 
 # copy custom configuration
 WORKDIR /etc/nginx/sites-available
-COPY nginx/localhost .
+COPY config/nginx/localhost .
 RUN ln -s /etc/nginx/sites-available/localhost /etc/nginx/sites-enabled/localhost \
  && rm /etc/nginx/sites-enabled/default
 WORKDIR /etc/supervisor/conf.d
-COPY supervisor/supervisord.conf .
+COPY config/supervisor/supervisord.conf .
 WORKDIR /etc/iqrf-daemon
-COPY config/. .
+COPY config/iqrf-daemon/. .
 RUN mkdir -p /node-red
 WORKDIR /node-red
-COPY ui/settings.js .
-COPY ui/flows.json .
+COPY config/node-red/. .
 
 # expose ports
 EXPOSE 80 1880 1883 8080 9001 55000/udp 55300/udp

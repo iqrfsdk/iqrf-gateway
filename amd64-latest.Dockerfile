@@ -24,7 +24,9 @@ WORKDIR /var/www/iqrf-daemon-webapp
 RUN composer create-project iqrfsdk/iqrf-daemon-webapp . dev-master \
  && sed -i 's/sudo\:\ true/sudo\:\ false/g' app/config/config.neon \
  && sed -i 's/iqrf-gw\:\ false/iqrf-gw\:\ true/g' app/config/config.neon \
- && sed -i "s/initDaemon: 'systemd'/initDaemon: 'docker-supervisor'/g" app/config/config.neon
+ && sed -i "s/initDaemon: 'systemd'/initDaemon: 'docker-supervisor'/g" app/config/config.neon \
+ && chmod 777 log/ \
+ && chmod 777 temp/
 
 # install node-red dashboard
 RUN npm install -g --unsafe-perm node-red \

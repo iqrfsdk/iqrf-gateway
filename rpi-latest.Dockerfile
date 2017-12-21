@@ -9,8 +9,8 @@ LABEL maintainer="rostislav.spinar@iqrf.com"
 RUN [ "cross-build-start" ]
 
 # add iqrf repo
-RUN echo "deb http://repos.iqrfsdk.org/raspbian stretch testing" | sudo tee -a /etc/apt/sources.list.d/iqrf-daemon.list \
- && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F973CFCE6B3BE25C
+RUN echo "deb http://repos.iqrfsdk.org/raspbian stretch stable" | sudo tee -a /etc/apt/sources.list.d/iqrf-daemon.list \
+ && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 9C076FCC7AB8F2E43C2AB0E73241B9B7B4BD8F8E
 
 # install supervisor && mosquitto && iqrf-daemon && php && nginx && node.js
 RUN apt-get update \

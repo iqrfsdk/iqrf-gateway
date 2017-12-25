@@ -26,8 +26,12 @@ RUN composer create-project iqrfsdk/iqrf-daemon-webapp . \
  && sed -i 's/iqrf-gw\:\ false/iqrf-gw\:\ true/g' app/config/config.neon \
  && sed -i "s/initDaemon: 'systemd'/initDaemon: 'docker-supervisor'/g" app/config/config.neon \
  && chmod 777 log/ \
- && chmod 777 temp/ \
- && mkdir /run/php/
+ && chmod 777 temp/
+
+# setup php-fpm
+RUN mkdir /run/php/ \
+ && sed -i 's/user\ =\ www-data/user\ =\ root/g' /etc/php/7.0/fpm/pool.d/www.conf \
+ && sed -i 's/group\ =\ www-data/group\ =\ root/g' /etc/php/7.0/fpm/pool.d/www.conf
 
 # install node-red dashboard
 RUN npm install -g --unsafe-perm node-red \

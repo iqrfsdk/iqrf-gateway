@@ -31,6 +31,12 @@ docker container run -d -p 80:80 -p 1880:1880 -p 1883:1883 -p 9001:9001 --device
 --privileged --name iqrf-starter-gateway --restart=always iqrfsdk/iqrf-starter-gateway-debian
 ```
 
+### Login
+
+http://YOUR-IP/
+user: admin
+pass: iqrf
+
 ## RPI board
 
 ### Build and push
@@ -47,3 +53,9 @@ docker image push iqrfsdk/iqrf-starter-gateway-raspbian
 docker container run -d -p 80:80 -p 1880:1880 -p 1883:1883 -p 9001:9001 --device /dev/spidev0.0:/dev/spidev0.0 \
 --privileged --name iqrf-starter-gateway --restart=always iqrfsdk/iqrf-starter-gateway-raspbian
 ```
+
+### Login
+
+http://YOUR-IP/
+user: admin
+pass: iqrf

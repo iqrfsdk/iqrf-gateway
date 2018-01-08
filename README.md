@@ -1,6 +1,6 @@
 # IQRF Starter Gateway
 
-Docker image based on IQRF GW daemon solution. Usable with https://resin.io/.
+Docker [image](https://hub.docker.com/r/iqrfsdk/iqrf-starter-gateway/) based on IQRF GW daemon solution. Usable with https://resin.io/.
 
 ![IQRF Starter Gateway](docs/iqrf-starter-gateway.png)
 
@@ -13,7 +13,7 @@ Docker image based on IQRF GW daemon solution. Usable with https://resin.io/.
 
 ## UP board
 
-### Build
+### User build
 
 ```Bash
 docker build -f amd64-stable.Dockerfile -t iqrfsdk/iqrf-starter-gateway-debian .
@@ -36,7 +36,7 @@ pass: iqrf
 
 ## RPI board
 
-### Build
+### User build
 
 ```Bash
 docker build -f rpi-stable.Dockerfile -t iqrfsdk/iqrf-starter-gateway-raspbian .

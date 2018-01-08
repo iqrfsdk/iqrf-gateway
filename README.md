@@ -4,15 +4,12 @@ Docker image based on IQRF GW daemon solution
 
 ![IQRF Starter Gateway](docs/iqrf-starter-gateway.png)
 
-- https://github.com/iqrfsdk/iqrf-daemon
-- https://github.com/iqrfsdk/iqrf-daemon-webapp
-- https://github.com/iqrfsdk/iqrf-daemon-examples
-+
-- https://nginx.org/
-- https://mosquitto.org/
-- https://nodered.org/
-- https://github.com/node-red/node-red-dashboard/
-- http://supervisord.org/
+- IQRF GW daemon
+- IQRF GW webapp
+- Nginx reverse proxy
+- Mosquitto MQTT broker
+- Node-RED logic and dashboard
+- Supervisor
 
 ## UP board
 
@@ -33,9 +30,11 @@ docker container run -d -p 80:80 -p 1880:1880 -p 1883:1883 -p 9001:9001 --device
 
 ### Login
 
+```Bash
 http://YOUR-IP/
 user: admin
 pass: iqrf
+```
 
 ## RPI board
 
@@ -56,6 +55,8 @@ docker container run -d -p 80:80 -p 1880:1880 -p 1883:1883 -p 9001:9001 --device
 
 ### Login
 
+```Bash
 http://YOUR-IP/
 user: admin
 pass: iqrf
+```
